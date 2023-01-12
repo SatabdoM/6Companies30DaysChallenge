@@ -1,32 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void f(int k,int sum,int start,vector<int>&temp,vector<vector<int>>&ans)
-{
-    //base case
-    if(k==0)
+    string getHint(string secret, string guess) 
     {
-        cout<<sum;
-        if(sum==0)
+        int cows=0,bulls=0;
+        vector<int>s(10),g(10);
+        for(int i=0;i<secret.size();i++)
         {
-            ans.push_back(temp);
+            if(secret[i]==guess[i])
+            {
+                bulls++;
+            }
+            else
+            {
+                s[secret[i]-'0']++;
+                g[guess[i]-'0']++;
+            
+            }
         }
-        return;
-    }
-    for(int i=start;i<=9;i++)
-    {
-        if(sum>=i)
+        //checking the number of cows
+        for(int i=0;i<10;i++)
         {
-            temp.push_back(i);
-            f(k-1,sum-i,i+1,temp,ans);
-            temp.pop_back();
-        }  
+            cows+=min(s[i],g[i]);
+        }
+        string ans;
+        string b=to_string(bulls);
+        ans+=b;
+        ans+='A';
+        string c=to_string(cows);
+        ans+=c;
+        ans+='B';
+        return ans;
+        
     }
-}
-vector<vector<int>> combinationSum3(int k, int sum)
-{
-    vector<vector<int>>ans;
-    vector<int>temp;
-    f(k,sum,1,temp,ans);
-    return ans;
-}
